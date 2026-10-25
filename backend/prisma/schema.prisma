@@ -1,0 +1,75 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+//Get a free hosted Postgres database in seconds: `npx create-db`
+
+
+generator client {
+  provider = "prisma-client-js"
+  //output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+
+
+enum Role {
+  DESIGNER
+  BRAND
+}
+
+model User {
+  id        String   @id @default(uuid())
+  name      String
+  email     String   @unique
+  password  String
+  bio       String?
+  avatarUrl String?
+  contactNumber String?   
+  role      Role
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  aestheticDescription String?
+
+  posts Post[]   @relation("DesignerPosts")
+  taggedPosts Post[] @relation("BrandTags")
+  sessions    Session[]           
+  }
+
+model Post {
+  id        String   @id @default(uuid())
+  imageUrl  String
+  imageFileId   String?
+  caption   String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // here designerId (actual foreignkey) for reference and designer is just like .populate() for prisma
+  
+  designerId String
+  designer   User   @relation("DesignerPosts", fields: [designerId], references: [id])
+
+  taggedBrandId String?
+  taggedBrand   User?   @relation("BrandTags", fields: [taggedBrandId], references: [id])
+  // These are tags creates by AI
+  colors     String?
+  fabricType String?
+  silhouette String?
+  workType   String?
+}
+model Session {
+  id               String    @id @default(uuid())
+  userId           String
+  user             User      @relation(fields: [userId], references: [id])
+  refreshTokenHash String
+  userAgent        String?
+  ip               String?
+  revoked          Boolean   @default(false)
+  expiresAt        DateTime
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+}

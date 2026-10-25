@@ -1,0 +1,176 @@
+@import "tailwindcss";
+
+
+@theme {
+    --color-ink: #17131f;
+    --color-paper: #fff7fb;
+    --color-hotpink: #ff4fa3;
+    --color-bubble: #7fd8ff;
+    --color-lime: #d4ff3a;
+    --color-lilac: #c9b5ff;
+    --color-butter: #fff27a;
+ 
+    --font-display: "Unbounded", system-ui, sans-serif;
+    --font-body: "Space Grotesk", system-ui, sans-serif;
+    --font-pixel: "VT323", ui-monospace, monospace;
+ 
+    --animate-marquee: marquee 30s linear infinite;
+    --animate-float: float 5s ease-in-out infinite;
+ 
+    @keyframes marquee {
+        from { transform: translateX(0); }
+        to { transform: translateX(-50%); }
+    }
+ 
+    @keyframes float {
+        0%, 100% { transform: translateY(0) rotate(-6deg); }
+        50% { transform: translateY(-14px) rotate(6deg); }
+    }
+}
+ 
+/* ---------- Base ---------- */
+html {
+    scroll-behavior: smooth;
+}
+ 
+body {
+    margin: 0;
+    min-height: 100vh;
+    font-family: var(--font-body);
+    color: var(--color-ink);
+    background-color: var(--color-paper);
+    background-image: radial-gradient(rgba(23, 19, 31, 0.1) 1.3px, transparent 1.3px);
+    background-size: 22px 22px;
+    -webkit-font-smoothing: antialiased;
+}
+ 
+:focus-visible {
+    outline: 3px solid var(--color-ink);
+    outline-offset: 3px;
+}
+ 
+/* ---------- Custom utilities (support hover: etc.) ---------- */
+@utility shadow-pop {
+    box-shadow: 4px 4px 0 0 var(--color-ink);
+}
+ 
+@utility shadow-pop-lg {
+    box-shadow: 7px 7px 0 0 var(--color-ink);
+}
+ 
+/* Big sticker-style lettering for the wordmark. Sizes are in em so it scales with font-size. */
+@utility sticker-text {
+    color: #fff;
+    -webkit-text-stroke: 0.025em var(--color-ink);
+    paint-order: stroke fill;
+    text-shadow: 0.04em 0.04em 0 var(--color-hotpink), 0.075em 0.075em 0 var(--color-ink);
+}
+ 
+/* ---------- Components (utilities can still override these) ---------- */
+@layer components {
+    .btn-y2k {
+        position: relative;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        overflow: hidden;
+        border: 2px solid var(--color-ink);
+        border-radius: 9999px;
+        padding: 0.75rem 1.4rem;
+        font-family: var(--font-display);
+        font-weight: 700;
+        font-size: 0.8rem;
+        line-height: 1;
+        box-shadow: 4px 4px 0 0 var(--color-ink);
+        transition: transform 0.12s ease, box-shadow 0.12s ease;
+        cursor: pointer;
+    }
+ 
+    /* the glossy highlight across the top half */
+    .btn-y2k::after {
+        content: "";
+        position: absolute;
+        inset: 0 0 52% 0;
+        background: linear-gradient(rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.05));
+        pointer-events: none;
+    }
+ 
+    .btn-y2k:hover {
+        transform: translate(-2px, -2px);
+        box-shadow: 6px 6px 0 0 var(--color-ink);
+    }
+ 
+    .btn-y2k:active {
+        transform: translate(3px, 3px);
+        box-shadow: 1px 1px 0 0 var(--color-ink);
+    }
+ 
+    .btn-y2k:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
+ 
+    /* old-desktop style window frame with a title bar */
+    .window {
+        overflow: hidden;
+        border: 2px solid var(--color-ink);
+        border-radius: 1.1rem;
+        background: #fff;
+        box-shadow: 6px 6px 0 0 var(--color-ink);
+    }
+ 
+    .window-bar {
+        display: flex;
+        align-items: center;
+        gap: 0.45rem;
+        padding: 0.4rem 0.8rem;
+        border-bottom: 2px solid var(--color-ink);
+        background: linear-gradient(90deg, var(--color-bubble), var(--color-lilac));
+        font-family: var(--font-pixel);
+        font-size: 1.15rem;
+        line-height: 1;
+    }
+ 
+    .window-dot {
+        width: 0.7rem;
+        height: 0.7rem;
+        border: 2px solid var(--color-ink);
+        border-radius: 9999px;
+    }
+ 
+    /* small pill label, used for AI tags and brand tags */
+    .sticker {
+        display: inline-flex;
+        align-items: center;
+        border: 2px solid var(--color-ink);
+        border-radius: 9999px;
+        padding: 0.1rem 0.65rem;
+        font-family: var(--font-pixel);
+        font-size: 1.15rem;
+        line-height: 1.2;
+        box-shadow: 2px 2px 0 0 var(--color-ink);
+    }
+ 
+    .hero-bg {
+        background: linear-gradient(135deg, #ffc9e6 0%, #c9b5ff 48%, #7fd8ff 100%);
+    }
+ 
+    /* dark fade at the bottom of a bento card so white text stays readable on any photo */
+    .card-fade {
+        background: linear-gradient(to top, rgba(23, 19, 31, 0.88), rgba(23, 19, 31, 0.18) 55%, transparent);
+    }
+}
+ 
+/* ---------- Respect reduced-motion settings ---------- */
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+ 
+    .animate-marquee,
+    .animate-float {
+        animation: none;
+    }
+}
+ 
