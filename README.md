@@ -45,7 +45,7 @@ Access is enforced twice. Express middleware checks the role on every protected 
 
 
 Project structure :
-
+```text
 AtelierBridge/
 ├── backend/
 │   ├── prisma/            schema.prisma and migrations
@@ -63,6 +63,7 @@ AtelierBridge/
 │       ├── Components/
 │       └── Context/       auth and feed state
 └── docker-compose.yml     local PostgreSQL
+```
 
 Prerequisites :
 
