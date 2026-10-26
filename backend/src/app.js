@@ -8,7 +8,7 @@ const brandRoutes = require("./routes/brandsSearchingRoutes");
 
 const cookieParser=require("cookie-parser")
 
-app.use(cors({origin: "http://localhost:5173",
+app.use(cors({origin:true,
     credentials: true,
 }));
 app.use(express.json());
